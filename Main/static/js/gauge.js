@@ -4,10 +4,10 @@ var data = [
       value: 1,
       title: { text: "Belly Button Washing Frequency" },
       type: "indicator",
-      mode: "gauge+number+delta",
-      delta: { reference: 380 },
+      mode: "gauge",
       gauge: {
-        axis: { range: [null, 10] },
+        axis: [{ range: [null, 10] }
+            {dticks},
         steps: [
           { range: [0, 1], color: "lightgray" },
           { range: [1, 2], color: "gray" },
