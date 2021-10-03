@@ -1,13 +1,12 @@
 var data = [
     {
       domain: { x: [0, 1], y: [0, 1] },
-      value: 1,
+      value: 6,
       title: { text: "Belly Button Washing Frequency" },
       type: "indicator",
       mode: "gauge",
       gauge: {
-        axis: [{ range: [null, 10] }
-            {dticks},
+        axis: { range: [null, 10] },
         steps: [
           { range: [0, 1], color: "lightgray" },
           { range: [1, 2], color: "gray" },
@@ -18,7 +17,7 @@ var data = [
           { range: [7, 8], color: "lightgray" },
           { range: [8, 9], color: "gray" },
           { range: [9, 10], color: "lightgray" }
-        ],
+        ]
         
         // threshold: {
         // line: { color: "red", width: 4 },
