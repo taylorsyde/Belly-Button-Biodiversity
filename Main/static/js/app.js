@@ -3,8 +3,6 @@ function init(){
     d3.json("samples.json").then(data => {
         // create variables and names from samples.json
         var idNums = data.names;
-        var demoList = data.metadata;
-        console.log(demoList);
         var dropdownMenu = d3.select("#selDataset");
         idNums.forEach(number => {
             // loop and populate the names into the dropdown box
@@ -12,33 +10,48 @@ function init(){
             .property("value", number) // populate
             .text(number); // populate text 
         })
+        
+        //create inital bar graph
+        var currentId = dropdownMenu.property("value");
+        var idData = data.samples.filter(foo => foo.id == currentId)[0];
+        d3.select('#bar').html('');
+        let barData = [{
+            x: idData.sample_values.slice(0,10),
+            y: idData.otu_ids.slice(0,10),
+            text: idData.otu_labels.slice(0,10),
+            type: 'bar',
+            orientation: 'h'}];
+        console.log('IdData',idData)
+        console.log('sample values', idData.sample_values)
+        console.log('otu_ids', idData.otu_ids)
+        console.log('otu_lables', idData.otu_labels)
+        let barLayout = {title: "Cultures in Belly Button"};
+        // Plotly.newPlot('bar', barData, barLayout);
 
-        var labels = data.samples[0].sample_values.slice(0,10);
-        var y = data.samples[0].otu_ids.slice(0,10);
-
-        console.log("labels", labels)
-        console.log('sample vaules', y)
-
-        var barData = [{
-            type: "bar",
-            y: reformattedLabels,
-            x: barChartValues,
-            text: barCharthovertext,
-            orientation: 'h'
-        }];
-    
-        Plotly.newPlot("bar", barData);
     })
 };
 
 init();
 
 // // Call updatePlotly() when a change takes place to the DOM
-// d3.selectAll("#selDataset").on("change", optionChanged);
+//d3.selectAll("#selDataset").on("change", optionChanged);
 
 // function popDemo(selectedId){};
 
-// function popBar(selectedId){};
+function popBar(selected){
+    d3.json('samples.json').then(data => {
+        var idValue = data.samples.filter(foo => foo.id == selected)[0];
+        d3.select('#bar').html('');
+        let barData = {
+            x: idValue.sample_values.slice(0,10),
+            y: idValue.otu_ids.slice(0,10),
+            text: idValue.otu_labels.slice(0,10),
+            type: 'bar',
+            orientation: 'h'};
+        let barLayout = {title: "Cultures in Belly Button"};
+        Plotly.update('bar', barData, barLayout);
+    });
+};
 
 // function popBubble(selectedId){};
 
