@@ -16,46 +16,55 @@ function init(){
         var idData = data.samples.filter(foo => foo.id == currentId)[0];
         d3.select('#bar').html('');
         let barData = [{
-            x: idData.sample_values.slice(0,10),
-            y: idData.otu_ids.slice(0,10),
-            text: idData.otu_labels.slice(0,10),
             type: 'bar',
+            x: idData.sample_values.slice(0,10),
+            // y: idData.otu_ids.slice(0,10),
+            y: idData.otu_labels.slice(0,10),
             orientation: 'h'}];
-        console.log('IdData',idData)
-        console.log('sample values', idData.sample_values)
-        console.log('otu_ids', idData.otu_ids)
-        console.log('otu_lables', idData.otu_labels)
-        let barLayout = {title: "Cultures in Belly Button"};
-        // Plotly.newPlot('bar', barData, barLayout);
-
+        let barLayout = {
+            title: "Cultures in Belly Button",
+            height: 600,
+            width: 800};
+        Plotly.newPlot('bar', barData, barLayout);
     })
 };
 
 init();
 
-// // Call updatePlotly() when a change takes place to the DOM
-//d3.selectAll("#selDataset").on("change", optionChanged);
-
 // function popDemo(selectedId){};
 
 function popBar(selected){
-    d3.json('samples.json').then(data => {
-        var idValue = data.samples.filter(foo => foo.id == selected)[0];
+    d3.json('samples.json').then(data2 => {
+        var idValue = data2.samples.filter(foo => foo.id == selected)[0];
         d3.select('#bar').html('');
-        let barData = {
+        console.log('Idvalue:', idValue)
+        let updateBar = [{
             x: idValue.sample_values.slice(0,10),
-            y: idValue.otu_ids.slice(0,10),
-            text: idValue.otu_labels.slice(0,10),
+            // y: idValue.otu_ids.slice(0,10),
+            y: idValue.otu_labels.slice(0,10),
             type: 'bar',
-            orientation: 'h'};
-        let barLayout = {title: "Cultures in Belly Button"};
-        Plotly.update('bar', barData, barLayout);
+            orientation: 'h'}];
+        let barLayout = {
+            title: "Cultures in Belly Button",
+            height: 600,
+            width: 800};
+        Plotly.newPlot('bar', updateBar, barLayout);
     });
 };
 
+function optionChanged(){
+    console.log('option function triggered')
+    var currentId = d3.select("#selDataset").property("value");
+    console.log(currentId)
+    popBar(currentId);
+};
+
+
+// // Call optionChaged when a change takes place to the DOM
+// d3.selectAll("#selDataset").on("change", optionChanged);
+
+
 // function popBubble(selectedId){};
-
-
 
 // // Initializes the page with a default plot
 // function updateDemos() {
