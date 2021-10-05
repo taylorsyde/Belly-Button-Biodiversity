@@ -11,21 +11,25 @@ function init(){
             .text(number); // populate text 
         })
         
-        //create inital bar graph
-        var currentId = dropdownMenu.property("value");
-        var idData = data.samples.filter(foo => foo.id == currentId)[0];
-        d3.select('#bar').html(''); // clears the current plot
-        let barData = [{
-            type: 'bar',
-            x: idData.sample_values.slice(0,10),
-            // y: idData.otu_ids.slice(0,10),
-            y: idData.otu_labels.slice(0,10),
-            orientation: 'h'}];
-        let barLayout = {
-            title: "Cultures in Belly Button",
-            height: 300,
-            width: 400};
-        Plotly.newPlot('bar', barData, barLayout);
+        //create inital visulizations
+        var initId = dropdownMenu.property("value");
+        popBar(initId);
+        popDemo(initId);
+
+
+        // var idData = data.samples.filter(foo => foo.id == currentId)[0];
+        // d3.select('#bar').html(''); // clears the current plot
+        // let barData = [{
+        //     type: 'bar',
+        //     x: idData.sample_values.slice(0,10),
+        //     // y: idData.otu_ids.slice(0,10),
+        //     y: idData.otu_labels.slice(0,10),
+        //     orientation: 'h'}];
+        // let barLayout = {
+        //     title: "Cultures in Belly Button",
+        //     height: 300,
+        //     width: 400};
+        // Plotly.newPlot('bar', barData, barLayout);
     })
 };
 
@@ -38,7 +42,8 @@ function popDemo(selected){
         var currentDemo = demoData.filter(foo => foo.id == selected)[0];
         console.log(currentDemo);
         var demoPanel = d3.select(".panel-body")
-        .text(currentDemo.ethnicity);
+        .text(
+            `Id Number: ${currentDemo.id}`);
         // d3.select('#sample-metadata').html(''); // clears out old demo
         // let id = demoData.idValue.id
         // console.log(id)
