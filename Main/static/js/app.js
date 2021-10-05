@@ -7,14 +7,14 @@ function init(){
         idNums.forEach(number => {
             // loop and populate the names into the dropdown box
             dropdownMenu.append("option") // add option to dropdown
-            .property("value", number) // populate
+            .property("value", number) // variable name
             .text(number); // populate text 
         })
         
         //create inital bar graph
         var currentId = dropdownMenu.property("value");
         var idData = data.samples.filter(foo => foo.id == currentId)[0];
-        d3.select('#bar').html('');
+        d3.select('#bar').html(''); // clears the current plot
         let barData = [{
             type: 'bar',
             x: idData.sample_values.slice(0,10),
@@ -23,20 +23,33 @@ function init(){
             orientation: 'h'}];
         let barLayout = {
             title: "Cultures in Belly Button",
-            height: 600,
-            width: 800};
+            height: 300,
+            width: 400};
         Plotly.newPlot('bar', barData, barLayout);
     })
 };
 
 init();
 
-// function popDemo(selectedId){};
+function popDemo(selected){
+    d3.json('samples.json').then(data => {
+        let demoData = data.metadata;
+        console.log(demoData);
+        var currentDemo = demoData.filter(foo => foo.id == selected)[0];
+        console.log(currentDemo);
+        var demoPanel = d3.select(".panel-body")
+        .text(currentDemo.ethnicity);
+        // d3.select('#sample-metadata').html(''); // clears out old demo
+        // let id = demoData.idValue.id
+        // console.log(id)
+    });
+};
+
 
 function popBar(selected){
-    d3.json('samples.json').then(data2 => {
-        var idValue = data2.samples.filter(foo => foo.id == selected)[0];
-        d3.select('#bar').html('');
+    d3.json('samples.json').then(data => {
+        var idValue = data.samples.filter(foo => foo.id == selected)[0];
+        d3.select('#bar').html(''); // clears out old graph
         console.log('Idvalue:', idValue)
         let updateBar = [{
             x: idValue.sample_values.slice(0,10),
@@ -46,8 +59,8 @@ function popBar(selected){
             orientation: 'h'}];
         let barLayout = {
             title: "Cultures in Belly Button",
-            height: 600,
-            width: 800};
+            height: 300,
+            width: 400};
         Plotly.newPlot('bar', updateBar, barLayout);
     });
 };
@@ -57,6 +70,7 @@ function optionChanged(){
     var currentId = d3.select("#selDataset").property("value");
     console.log(currentId)
     popBar(currentId);
+    popDemo(currentId);
 };
 
 
