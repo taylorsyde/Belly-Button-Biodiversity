@@ -39,7 +39,8 @@ function popGauage(selected){
   var data = [{
       domain: { x: [0, 1], y: [0, 1] },
       value: washCount,
-      title: { text: "Belly Button Washing Frequency" },
+      title: { text: "Belly Button Washing Frequency",
+        font: {size: 17}},
       type: "indicator",
       mode: "gauge",
       gauge: {
@@ -56,7 +57,7 @@ function popGauage(selected){
           { range: [9, 10], color: "lightgray" }]}
     }
   ];
-  var layout = { width: 300, height: 200, margin: { t: 0, b: 0 } };
+  var layout = { width: 350, height: 200, margin: { t: 0, b: 0 } };
   Plotly.newPlot('gauge', data, layout);
 
   });
